@@ -1,0 +1,5 @@
+project-update-watcher:
+    container_name: project-update-watcher
+    build: env
+    volumes:
+        - ../:/var/www/html/:cached
