@@ -1,0 +1,8 @@
+watcher:
+  projectPath: ./project
+  logPath: ./log
+  resourcesPath: ./resources
+project:
+  repositoryUrl: ''
+  branchName: 'master'
+  originName: 'origin'
