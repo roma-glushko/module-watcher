@@ -6,3 +6,7 @@ project:
   repositoryUrl: ''
   branchName: 'master'
   originName: 'origin'
+email:
+  subject: 'Project Update Report'
+  fromEmail: 'test@test.com'
+  toEmails: 'test1@test.com,test2@test.com'

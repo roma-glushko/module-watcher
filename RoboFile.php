@@ -17,10 +17,6 @@ class RoboFile extends Tasks
 {
     use NuvoleWeb\Robo\Task\Config\loadTasks;
 
-    const LOG_PATH = './log';
-
-    const RESOURCES_PATH = './resources';
-
     /**
      * @return void
      */
