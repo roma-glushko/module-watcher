@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: glushko
- * Date: 9/23/18
- * Time: 12:23 AM
+ * This file is part of project-update-watcher <https://github.com/roma-glushko/project-update-watcher>
+ *
+ * @author Roman Glushko <https://github.com/roma-glushko>
  */
 
 namespace ProjectUpdateWatcher\Command;
@@ -12,6 +11,7 @@ use Swift_Mailer;
 use Swift_Message;
 use Swift_SendmailTransport;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -25,7 +25,10 @@ class SendEmailCommand extends Command
      */
     protected function configure()
     {
-
+        $this->addArgument('dependencyList', InputArgument::REQUIRED | InputArgument::IS_ARRAY);
+        $this->addOption('emailSubject', 's', InputArgument::REQUIRED);
+        $this->addOption('fromEmail', 'f',InputArgument::REQUIRED);
+        $this->addOption('toEmails', 't',InputArgument::REQUIRED | InputArgument::IS_ARRAY);
     }
 
     /**
@@ -36,12 +39,14 @@ class SendEmailCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $emailSubject = 'Project Update Report';
-        $fromEmail = ['test@test.com'];
-        $toEmails = ['test1@test.com', 'test2@test.com'];
-        $emailBody = 'Here is the message itself';
+        $toEmails = $input->getOption('toEmails');
+        $fromEmail = $input->getOption('fromEmail');
+        $emailSubject = $input->getOption('emailSubject');
+        $dependencyList = $input->getArgument('dependencyList');
 
-        $transport = new Swift_SendmailTransport('/usr/sbin/sendmail -bs');
+        $emailBody = implode(PHP_EOL, $dependencyList);
+
+        $transport = $this->getEmailTransport();
         $mailer = new Swift_Mailer($transport);
 
         $message = (new Swift_Message($emailSubject))
@@ -50,5 +55,13 @@ class SendEmailCommand extends Command
             ->setBody($emailBody);
 
         return $mailer->send($message) > 0;
+    }
+
+    /**
+     * @return Swift_SendmailTransport
+     */
+    protected function getEmailTransport()
+    {
+        return new Swift_SendmailTransport('/usr/sbin/sendmail -bs');
     }
 }

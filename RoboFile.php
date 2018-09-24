@@ -1,13 +1,14 @@
 <?php
 /**
- * This is project's console commands configuration for Robo task runner.
+ * This file is part of project-update-watcher <https://github.com/roma-glushko/project-update-watcher>
  *
- * @see http://robo.li/
+ * @author Roman Glushko <https://github.com/roma-glushko>
  */
 
 require_once 'vendor/autoload.php';
 
 use ProjectUpdateWatcher\Command\SendEmailCommand;
+use ProjectUpdateWatcher\Service\FilterDependencyReportService;
 use Robo\Tasks;
 
 /**
@@ -54,24 +55,38 @@ class RoboFile extends Tasks
         $branchName = $this->config('project.branchName');
         $originName = $this->config('project.originName');
 
-        $this->taskGitStack()
-            ->dir($projectPath)
-            ->pull($originName, $branchName)
-            ->run();
+        $emailSubject = $this->config('email.subject');
+        $fromEmail = $this->config('email.fromEmail');
+        $toEmails = $this->config('email.toEmails');
+        $dependencyBlacklist = $this->config('blacklist');
 
-        $this->taskComposerInstall()
-            ->dir($projectPath)
-            ->run();
+//        $this->taskGitStack()
+//            ->dir($projectPath)
+//            ->pull($originName, $branchName)
+//            ->run();
+//
+//        $this->taskComposerInstall()
+//            ->dir($projectPath)
+//            ->run();
 
         $this->say('Looking for outdated dependencies..');
 
-        $outdatedDependencyReport = $this->taskExec('composer')
+        $dependencyReport = $this->taskExec('composer')
             // ->dir($projectPath)
             ->arg('outdated')
             ->silent(true)
             ->run();
 
+        $dependencyList = (new FilterDependencyReportService())->execute(
+            $dependencyReport->getMessage(),
+            $dependencyBlacklist
+        );
+
         $this->taskSymfonyCommand(new SendEmailCommand())
+            ->arg('dependencyList', $dependencyList)
+            ->opt('emailSubject', $emailSubject)
+            ->opt('fromEmail', $fromEmail)
+            ->opt('toEmails', $toEmails)
             ->run();
     }
 

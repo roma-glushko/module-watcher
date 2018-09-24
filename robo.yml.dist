@@ -1,3 +1,6 @@
+# This file is part of project-update-watcher <https://github.com/roma-glushko/project-update-watcher>
+# @author Roman Glushko <https://github.com/roma-glushko>
+
 watcher:
   projectPath: ./project
   logPath: ./log
@@ -10,3 +13,6 @@ email:
   subject: 'Project Update Report'
   fromEmail: 'test@test.com'
   toEmails: 'test1@test.com,test2@test.com'
+blacklist:
+  - 'atwix/'
+  - 'magento/'
