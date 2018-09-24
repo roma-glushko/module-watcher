@@ -60,19 +60,19 @@ class RoboFile extends Tasks
         $toEmails = $this->config('email.toEmails');
         $dependencyBlacklist = $this->config('blacklist');
 
-//        $this->taskGitStack()
-//            ->dir($projectPath)
-//            ->pull($originName, $branchName)
-//            ->run();
-//
-//        $this->taskComposerInstall()
-//            ->dir($projectPath)
-//            ->run();
+        $this->taskGitStack()
+            ->dir($projectPath)
+            ->pull($originName, $branchName)
+            ->run();
+
+        $this->taskComposerInstall()
+            ->dir($projectPath)
+            ->run();
 
         $this->say('Looking for outdated dependencies..');
 
         $dependencyReport = $this->taskExec('composer')
-            // ->dir($projectPath)
+            ->dir($projectPath)
             ->arg('outdated')
             ->silent(true)
             ->run();
