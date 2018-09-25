@@ -24,13 +24,28 @@ class FilterDependencyReportService
         $dependencyList = explode(PHP_EOL, $dependencyReport);
 
         foreach ($dependencyList as $dependencyItem) {
-            foreach ($blacklist as $blacklistPattern) {
-                if (false === strstr($dependencyItem, $blacklistPattern)) {
-                    $filteredReport[] = $dependencyItem;
-                }
+            if (!$this->isBlacklisted($dependencyItem, $blacklist)) {
+                $filteredReport[] = $dependencyItem;
             }
         }
 
         return $filteredReport;
+    }
+
+    /**
+     * @param string $dependencyItem
+     * @param array $blacklist
+     *
+     * @return bool
+     */
+    protected function isBlacklisted(string $dependencyItem, array $blacklist): bool
+    {
+        foreach ($blacklist as $blacklistPattern) {
+            if (false !== strstr($dependencyItem, $blacklistPattern)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
