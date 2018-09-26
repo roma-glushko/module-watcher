@@ -17,6 +17,7 @@ use Robo\Tasks;
 class RoboFile extends Tasks
 {
     use NuvoleWeb\Robo\Task\Config\loadTasks;
+    use ProjectUpdateWatcher\RoboTask\loadTasks;
 
     /**
      * @return void
@@ -26,6 +27,7 @@ class RoboFile extends Tasks
         $projectPath = $this->getProjectPath();
         $logPath = $this->getLogPath();
         $resourcesPath = $this->getResourcesPath();
+
         $branchName = $this->config('project.branchName');
         $projectRepositoryUrl = $this->config('project.repositoryUrl');
 
@@ -51,7 +53,7 @@ class RoboFile extends Tasks
      */
     public function watcherCheckOutdatedDependency()
     {
-        $projectPath = $this->getProjectPath();
+        $projectPath = realpath($this->getProjectPath());
         $branchName = $this->config('project.branchName');
         $originName = $this->config('project.originName');
 
@@ -59,6 +61,8 @@ class RoboFile extends Tasks
         $fromEmail = $this->config('email.fromEmail');
         $toEmails = $this->config('email.toEmails');
         $dependencyBlacklist = $this->config('blacklist');
+
+        $this->say(sprintf('[%s] Start watching for project updates', $this->getCurrentTimestamp()));
 
         $this->taskGitStack()
             ->dir($projectPath)
@@ -69,11 +73,8 @@ class RoboFile extends Tasks
             ->dir($projectPath)
             ->run();
 
-        $this->say('Looking for outdated dependencies..');
-
-        $dependencyReport = $this->taskExec('composer')
+        $dependencyReport = $this->taskComposerOutdated()
             ->dir($projectPath)
-            ->arg('outdated')
             ->silent(true)
             ->run();
 
@@ -112,5 +113,15 @@ class RoboFile extends Tasks
     protected function getResourcesPath()
     {
         return $this->config('watcher.resourcesPath');
+    }
+
+    /**
+     * @return string
+     */
+    protected function getCurrentTimestamp()
+    {
+        $dateTime = new DateTime();
+
+        return $dateTime->format('H:i:s d-m-Y');
     }
 }

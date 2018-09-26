@@ -10,7 +10,8 @@
         "consolidation/robo": "^1.3",
         "swiftmailer/swiftmailer": "^6.0",
         "symfony/console": "^4.1",
-        "nuvoleweb/robo-config": "^0.2.2"
+        "nuvoleweb/robo-config": "^0.2.2",
+        "composer/composer": "^1.7"
     },
     "autoload": {
       "psr-4": { "ProjectUpdateWatcher\\": "" }
