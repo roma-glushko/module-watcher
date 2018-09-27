@@ -44,7 +44,7 @@ class SendEmailCommand extends Command
         $emailSubject = $input->getOption('emailSubject');
         $dependencyList = $input->getArgument('dependencyList');
 
-        $emailBody = implode(PHP_EOL, $dependencyList);
+        $emailBody = $this->getEmailBody($dependencyList);
 
         $transport = $this->getEmailTransport();
         $mailer = new Swift_Mailer($transport);
@@ -52,7 +52,7 @@ class SendEmailCommand extends Command
         $message = (new Swift_Message($emailSubject))
             ->setFrom($fromEmail)
             ->setTo($toEmails)
-            ->setBody($emailBody);
+            ->setBody($emailBody, 'text/html');
 
         return $mailer->send($message) > 0;
     }
@@ -63,5 +63,25 @@ class SendEmailCommand extends Command
     protected function getEmailTransport()
     {
         return new Swift_SendmailTransport('/usr/sbin/sendmail -bs');
+    }
+
+    /**
+     * @param array $dependencyList
+     * @return string
+     */
+    protected function getEmailBody(array $dependencyList): string
+    {
+        $result = [];
+
+        foreach ($dependencyList as $dependencyReport) {
+            $formattedDependencyReport = mb_convert_encoding($dependencyReport , 'UTF-8', 'UTF-8');
+            $formattedDependencyReport = str_replace('[31m', '<span style="color: red">', $formattedDependencyReport);
+            $formattedDependencyReport = str_replace('[33m', '<span style="color: orange">', $formattedDependencyReport);
+            $formattedDependencyReport = str_replace('[39m', '</span>', $formattedDependencyReport);
+
+            $result[] = $formattedDependencyReport;
+        }
+
+        return implode('<br/>', $result);
     }
 }

@@ -75,6 +75,7 @@ class RoboFile extends Tasks
 
         $dependencyReport = $this->taskComposerOutdated()
             ->dir($projectPath)
+            ->ansi(true)
             ->silent(true)
             ->run();
 
