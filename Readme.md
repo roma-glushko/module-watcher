@@ -11,4 +11,5 @@ However, the idea is platform-agnostic.
 - CRON
 - Sendmail
 - GIT
+- Composer
 
