@@ -13,3 +13,15 @@ However, the idea is platform-agnostic.
 - GIT
 - Composer
 
+## Commands
+
+### watcher:install
+
+This one helps to install everything that is needed to watch for project dependency updates. 
+Configurations from `robo.yml` and `robo.yml.dist` in the root of project is used while installing. 
+
+### watcher:check-outdated-dependency
+
+This one is used for checking whenever project has any dependency that is outdated. 
+Collected project update report is being sent by email.
+Dependencies can be blacklisted to keep project update report clean and useful.
