@@ -25,3 +25,12 @@ Configurations from `robo.yml` and `robo.yml.dist` in the root of project is use
 This one is used for checking whenever project has any dependency that is outdated. 
 Collected project update report is being sent by email.
 Dependencies can be blacklisted to keep project update report clean and useful.
+
+There are two types of reporting:
+- email
+- CLI
+
+Report type can be specified this way:
+`
+./vendor/bin/robo watcher:check-outdated-dependency email
+`
