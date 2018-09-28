@@ -13,6 +13,10 @@ However, the idea is platform-agnostic.
 - GIT
 - Composer
 
+## Workflow
+
+The system is based on Robo task framework.
+
 ## Commands
 
 ### watcher:install
