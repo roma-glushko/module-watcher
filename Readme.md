@@ -28,6 +28,6 @@ Dependencies can be blacklisted to keep project update report clean and useful.
 
 There are two types of reporting:
 - email: `./vendor/bin/robo watcher:check-outdated-dependency email`
-- CLI `./vendor/bin/robo watcher:check-outdated-dependency`
+- CLI: `./vendor/bin/robo watcher:check-outdated-dependency`
 
 
