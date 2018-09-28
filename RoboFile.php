@@ -19,6 +19,9 @@ class RoboFile extends Tasks
     use NuvoleWeb\Robo\Task\Config\loadTasks;
     use ProjectUpdateWatcher\RoboTask\loadTasks;
 
+    const REPORT_TYPE_EMAIL = 'email';
+    const REPORT_TYPE_CONSOLE = 'console';
+
     /**
      * @return void
      */
@@ -49,9 +52,11 @@ class RoboFile extends Tasks
     /**
      * Check outdated dependencies in the project
      *
+     * @param string $reportType Report type
+     *
      * @return void
      */
-    public function watcherCheckOutdatedDependency()
+    public function watcherCheckOutdatedDependency($reportType = self::REPORT_TYPE_CONSOLE)
     {
         $projectPath = realpath($this->getProjectPath());
         $branchName = $this->config('project.branchName');
@@ -84,12 +89,22 @@ class RoboFile extends Tasks
             $dependencyBlacklist
         );
 
-        $this->taskSymfonyCommand(new SendEmailCommand())
-            ->arg('dependencyList', $dependencyList)
-            ->opt('emailSubject', $emailSubject)
-            ->opt('fromEmail', $fromEmail)
-            ->opt('toEmails', $toEmails)
-            ->run();
+        if (self::REPORT_TYPE_EMAIL == $reportType) {
+            // reporting dependencies via email
+            $this->taskSymfonyCommand(new SendEmailCommand())
+                ->arg('dependencyList', $dependencyList)
+                ->opt('emailSubject', $emailSubject)
+                ->opt('fromEmail', $fromEmail)
+                ->opt('toEmails', $toEmails)
+                ->run();
+
+            return;
+        }
+
+        // reporting dependencies via console
+        foreach ($dependencyList as $dependencyItem) {
+            $this->say($dependencyItem);
+        }
     }
 
     /**
