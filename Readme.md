@@ -8,9 +8,9 @@ However, the idea is platform-agnostic.
 ## Requirements
 
 - PHP 7.1
-- CRON
+- CRON/CI system
 - Sendmail
-- GIT
+- Git
 
 ## Configurations
 
