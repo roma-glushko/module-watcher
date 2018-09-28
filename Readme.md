@@ -1,6 +1,6 @@
 # Project Update Watcher 🔎
 
-This is a system of reporting about outdated composer dependencies that are used in a project.
+This is a system of reporting outdated composer dependencies that are used in a project.
 Originally, it was designed to be used on Magento 2 based projects 
 where custom modules are frequently installed via Composer.
 However, the idea is platform-agnostic.
@@ -13,9 +13,21 @@ However, the idea is platform-agnostic.
 - GIT
 - Composer
 
+## Configurations
+
+[robo.yml.dist](https://github.com/roma-glushko/project-update-watcher/blob/master/robo.yml.dist) should be copied to `robo.yml` file where all configuration changes should happen. Things can be configured:
+- project retoristory configurations
+- watcher directory configurations
+- report email configurations
+- report dependency blacklist configurations 
+
 ## Workflow
 
-The system is based on Robo task framework.
+The system is based on [Robo](https://robo.li) task framework. 
+[RoboFile.php](https://github.com/roma-glushko/project-update-watcher/blob/master/RoboFile.php) is an extensible point that adds two commands (described in Commands section). 
+After installing the system (clonning the repository and running `composer install`), it's needed to adjust configurations and install the project via `watcher:install` command. 
+
+Finally, the second command `watcher:check-outdated-dependency` should be run by scheduler or CI system.
 
 ## Commands
 
@@ -33,5 +45,3 @@ Dependencies can be blacklisted to keep project update report clean and useful.
 There are two types of reporting:
 - email: `./vendor/bin/robo watcher:check-outdated-dependency email`
 - CLI: `./vendor/bin/robo watcher:check-outdated-dependency`
-
-
