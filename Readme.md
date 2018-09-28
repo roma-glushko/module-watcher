@@ -31,6 +31,5 @@ There are two types of reporting:
 - CLI
 
 Report type can be specified this way:
-`
-./vendor/bin/robo watcher:check-outdated-dependency email
-`
+
+`./vendor/bin/robo watcher:check-outdated-dependency email`
