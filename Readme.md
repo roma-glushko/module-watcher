@@ -27,9 +27,7 @@ Collected project update report is being sent by email.
 Dependencies can be blacklisted to keep project update report clean and useful.
 
 There are two types of reporting:
-- email
-- CLI
+- email: `./vendor/bin/robo watcher:check-outdated-dependency email`
+- CLI `./vendor/bin/robo watcher:check-outdated-dependency`
 
-Report type can be specified this way:
 
-`./vendor/bin/robo watcher:check-outdated-dependency email`
