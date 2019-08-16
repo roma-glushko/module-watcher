@@ -15,7 +15,7 @@ However, the idea is platform-agnostic.
 ## Configurations
 
 File [robo.yml.dist](https://github.com/roma-glushko/project-update-watcher/blob/master/robo.yml.dist) should be copied to `robo.yml` file where all configuration changes should happen. Things can be configured:
-- project retoristory configurations
+- project repository configurations
 - watcher directory configurations
 - report email configurations
 - report dependency blacklist configurations 
