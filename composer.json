@@ -9,7 +9,8 @@
     "require": {
         "swiftmailer/swiftmailer": "^6.0",
         "composer/composer": "^1.10",
-        "symfony/console": "^5.0"
+        "symfony/console": "^5.0",
+        "czproject/git-php": "^3.17"
     },
     "autoload": {
       "psr-4": { "ModuleWatcher\\": "src" }
