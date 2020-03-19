@@ -5,8 +5,8 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use Symfony\Component\Console\Application;
-use ModuleVersionWatcher\Command\WatchCommand;
+use ModuleWatcher\Command\WatchCommand;
 
-$application = new Application('module-version-watcher', '2.0.0');
+$application = new Application('module-watcher', '2.0.0');
 $application->add(new WatchCommand());
 $application->run();

@@ -1,6 +1,4 @@
 .idea
 vendor
 project
-resources
-log
-robo.yml
+tmp

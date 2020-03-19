@@ -1,0 +1,9 @@
+general-configs:
+    test-config: [1, 2, 3]
+    packagist-proxy-urls:
+        - proxy1.com
+        - proxy2.com
+projects:
+    project-ee-magento:
+        git:
+
