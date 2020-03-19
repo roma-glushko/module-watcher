@@ -1,4 +1,4 @@
-# Project Update Watcher 🔎
+# Module Version Watcher 🔎
 
 This is a system of reporting outdated composer dependencies that are used in a project.
 Originally, it was designed to be used on Magento 2 based projects 
