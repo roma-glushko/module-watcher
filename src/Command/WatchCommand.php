@@ -12,6 +12,7 @@ use Composer\Package\Link;
 use Composer\Package\PackageInterface;
 use Composer\Semver\Comparator;
 use Composer\Semver\Constraint\Constraint;
+use ModuleWatcher\System\Profiler;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -40,6 +41,7 @@ class WatchCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        Profiler::start('WATCH-COMMAND');
         $composer = $this->getComposer('./tmp/composer.json', './tmp/vendor','./tmp/vendor/home');
 
         $rootPackage = $composer->getPackage();
@@ -47,7 +49,10 @@ class WatchCommand extends Command
         $lockedPackages = $composer->getLocker()->getLockedRepository();
 
         /** @var Link[] $rootRequires */
-        $rootRequires = array_merge_recursive($rootPackage->getRequires(), $rootPackage->getDevRequires());
+        $rootRequires = array_merge_recursive(
+            $rootPackage->getRequires(),
+            $rootPackage->getDevRequires() // modules can be required as dev dependency
+        );
 
         $preferStable = (true === $rootPackage->getPreferStable()) ||
             ('stable' === $rootPackage->getMinimumStability());
@@ -55,7 +60,7 @@ class WatchCommand extends Command
         foreach ($rootRequires as $requirePackage) {
             $package = $lockedPackages->findPackage(
                 $requirePackage->getTarget(),
-                $requirePackage->getPrettyConstraint() // modules can be required as dev dependency
+                $requirePackage->getPrettyConstraint()
             );
 
             if (null === $package) {
@@ -67,17 +72,16 @@ class WatchCommand extends Command
                 continue;
             }
 
+            // todo: move to configs
             if ('magento2-module' !== $package->getType() && 'magento2-component' !== $package->getType()) {
                 continue;
             }
 
-            if ($this->isMagentoPackage($package->getPrettyName())) {
-                continue;
-            }
-
+            Profiler::start('WATCH-COMMAND::FIND-LAST-VERSION::' . $package->getName());
             $higherPackages = $repositoryManager->findPackages(
                 $package->getName(), new Constraint('>', $package->getVersion())
             );
+            Profiler::end('WATCH-COMMAND::FIND-LAST-VERSION::' . $package->getName());
 
             if ($preferStable) {
                 $higherPackages = array_filter($higherPackages, function (PackageInterface $package) {
@@ -95,10 +99,15 @@ class WatchCommand extends Command
             });
 
             // Push actual and last package on outdated array
-            var_dump($package->getPrettyName());
-            var_dump($package->getPrettyVersion());
-            var_dump($higherPackages[0]->getPrettyVersion());
+            var_dump([
+                'package' => $package->getPrettyName(),
+                'current_version' => $package->getPrettyVersion(),
+                'newest_version' => $higherPackages[0]->getPrettyVersion(),
+            ]);
         }
+        Profiler::end('WATCH-COMMAND');
+
+        var_dump(Profiler::getAll());
 
         return 0;
     }
@@ -126,6 +135,6 @@ class WatchCommand extends Command
      */
     private function isMagentoPackage(string $packageName)
     {
-        return preg_match('/^magento\/*/', $packageName) == 1;
+        return 1 === preg_match('/^magento\/*/', $packageName);
     }
 }
