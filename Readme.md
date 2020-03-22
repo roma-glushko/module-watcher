@@ -10,15 +10,7 @@ The project is on MVP stage and has a lot of var_dumps() 😄
 - PHP 7.2
 - Cron/CI system
 - Git
-- Sendmail/Slack
-
-## Magento2 Modules
-
-Module Watcher is capable to track the following types of third-party module installations:
-
-- Third-party modules installed via Composer from Vendor Packagists
-- Third-party modules installed via Composer from SI Packagists
-- Third-party modules committed to the Codebase
+- php mail()/Swift Mail/Slack
 
 ## Workflow
 
@@ -42,3 +34,14 @@ After your config file is installed, you are ready to run `project:watch` comman
 get notifications about module updates.
 
 It's convenient to run the command from Cron or CLI to constantly get notifications and don't forget about this action.
+
+The command makes project branches up to date and then performs checks for
+Magento2 modules installed in all possible ways.
+
+## Magento2 Modules
+
+Module Watcher is capable to track the following types of third-party module installations:
+
+- ✅ Third-party modules installed via Composer from Vendor Packagists
+- ⚠️ Third-party modules installed via Composer from SI Packagists
+- 🚨 Third-party modules committed to the Codebase
