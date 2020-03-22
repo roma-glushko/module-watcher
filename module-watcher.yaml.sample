@@ -1,4 +1,5 @@
 temp_dir: ./tmp
+git-bin: ~
 proxy-packagists:
     - one.proxy.com
     - two.proxy.dev
