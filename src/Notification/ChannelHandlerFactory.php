@@ -6,7 +6,6 @@ namespace ModuleWatcher\Notification;
 
 use InvalidArgumentException;
 use ModuleWatcher\Project\VariableProcessor;
-use Monolog\Formatter\HtmlFormatter;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\NativeMailerHandler;
 use Monolog\Handler\NullHandler;
@@ -96,7 +95,7 @@ class ChannelHandlerFactory
             Logger::INFO
         );
 
-        $mailHandler->setFormatter(new HtmlFormatter());
+        $mailHandler->setFormatter(new RawMessageFormatter());
 
         return $mailHandler;
     }

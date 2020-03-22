@@ -1,0 +1,183 @@
+{% apply inky_to_html|inline_css(source('@styles/foundation-emails.css'), source('@styles/foundation.css'), source('@styles/email.css')) %}
+    <container>
+        <row class="header">
+{#            <columns>#}
+{#                <center>#}
+{#                    <img src="{{ message.embed('@images/logo.png') }}" class="logo" alt="Module Watcher">#}
+{#                </center>#}
+{#            </columns>#}
+        </row>
+        <row class="jambo">
+            <columns>
+                <spacer size="35"></spacer>
+                <h1>
+                    <center>
+                        Module Watcher Report <br/>
+                        {{ project.name|escape('url') }}
+                    </center>
+                </h1>
+                <spacer size="10"></spacer>
+            </columns>
+        </row>
+        <spacer size="30"></spacer>
+        <row>
+            <columns>
+                <p>
+                    Welcome to <strong>a module watcher report</strong>, we can't wait to let you know about
+                    state of codebase on your project.
+                    Further you will find third-party modules grouped by action categories depending on the information
+                    we collected.
+                </p>
+            </columns>
+        </row>
+        <spacer size="10"></spacer>
+        <row>
+            <columns>
+                <h3>
+                    <center>Outdated 🚨</center>
+                </h3>
+            </columns>
+        </row>
+        <row>
+            <columns>
+                <p>
+                    We found outdated third-party modules on the project! We strongly suggest to review module changelogs
+                    to make sure you are not missing any critical security or quality enhancements.
+                </p>
+            </columns>
+        </row>
+        <row>
+            <columns>
+                <table>
+                    <thead>
+                    <tr>
+                        <th width="200">Module</th>
+                        <th width="100">Current Version</th>
+                        <th width="100">Actual Version</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Content Goes Here</td>
+                        <td>Content Goes Here</td>
+                        <td>Content Goes Here</td>
+                    </tr>
+                    <tr>
+                        <td>Content Goes Here</td>
+                        <td>Content Goes Here</td>
+                        <td>Content Goes Here</td>
+                    </tr>
+                    <tr>
+                        <td>Content Goes Here</td>
+                        <td>Content Goes Here</td>
+                        <td>Content Goes Here</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </columns>
+        </row>
+        <spacer size="10"></spacer>
+        <row>
+            <columns>
+                <h3>
+                    <center>Not Sure ⚠️</center>
+                </h3>
+            </columns>
+        </row>
+        <row>
+            <columns>
+                <p>
+                    We found list of modules that were installed via proxy packagist or codebase. So there is no easy way
+                    to check their state automatically. We suggest to go through this list and check modules manually one by one.
+                </p>
+            </columns>
+        </row>
+        <row>
+            <columns>
+                <table>
+                    <thead>
+                    <tr>
+                        <th width="200">Module</th>
+                        <th width="100">Current Version</th>
+                        <th width="100">Installation</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Content Goes Here</td>
+                        <td>Content Goes Here</td>
+                        <td>Codebase</td>
+                    </tr>
+                    <tr>
+                        <td>Content Goes Here</td>
+                        <td>Content Goes Here</td>
+                        <td>Proxy</td>
+                    </tr>
+                    <tr>
+                        <td>Content Goes Here</td>
+                        <td>Content Goes Here</td>
+                        <td>Proxy</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </columns>
+        </row>
+        <spacer size="10"></spacer>
+        <row>
+            <columns>
+                <h3>
+                    <center>Up to Date ✅</center>
+                </h3>
+            </columns>
+        </row>
+        <row>
+            <columns>
+                <p>
+                    Nothing to do here. But in case you are wondering, you can find a list of green third-parties below.
+                </p>
+            </columns>
+        </row>
+        <row>
+            <columns>
+                <table>
+                    <thead>
+                    <tr>
+                        <th width="200">Module</th>
+                        <th width="100">Current Version</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Content Goes Here</td>
+                        <td>Content Goes Here</td>
+                    </tr>
+                    <tr>
+                        <td>Content Goes Here</td>
+                        <td>Content Goes Here</td>
+                    </tr>
+                    <tr>
+                        <td>Content Goes Here</td>
+                        <td>Content Goes Here</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </columns>
+        </row>
+        <row class="footer">
+            <columns>
+                <p>Cheers,</p>
+                <p>Your friendly <em>Module Watcher</em></p>
+            </columns>
+        </row>
+        <row class="bottom">
+            <columns>
+                <center>
+                    <spacer size="20"></spacer>
+                    <div>
+                        Created with ❤️ by <a href="https://github.com/roma-glushko">Roman Glushko</a>
+                    </div>
+                </center>
+            </columns>
+        </row>
+    </container>
+{% endapply %}

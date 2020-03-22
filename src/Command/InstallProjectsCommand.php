@@ -7,6 +7,7 @@ namespace ModuleWatcher\Command;
 use ModuleWatcher\Config\ConfigManager;
 use ModuleWatcher\Project\NotificationManager;
 use ModuleWatcher\Project\ProjectFetcher;
+use ModuleWatcher\Template\TemplateRenderer;
 use Monolog\Logger;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -45,7 +46,13 @@ class InstallProjectsCommand extends Command
             'master'
         );
 
-        $notificationLogger->log(Logger::INFO, 'TEST');
+        $reportTemplate = (new TemplateRenderer())->render(
+            'module-watcher-report.html.twig',
+            ['project' => $configManager->getProject('cabinetsdotcom')]
+        );
+
+        $notificationLogger->log(Logger::INFO, $reportTemplate);
+
 
         return 0;
     }
