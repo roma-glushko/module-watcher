@@ -4,9 +4,11 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use Symfony\Component\Console\Application;
+use ModuleWatcher\Command\InstallProjectsCommand;
 use ModuleWatcher\Command\WatchCommand;
+use Symfony\Component\Console\Application;
 
 $application = new Application('module-watcher', '2.0.0');
+$application->add(new InstallProjectsCommand());
 $application->add(new WatchCommand());
 $application->run();

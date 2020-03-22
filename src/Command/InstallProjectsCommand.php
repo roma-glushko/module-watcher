@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace ModuleWatcher\Command;
 
-use ModuleWatcher\Module\ComposerModuleProvider;
-use ModuleWatcher\Module\LocalModuleProvider;
+use ModuleWatcher\Project\ProjectFetcher;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -13,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  *
  */
-class WatchCommand extends Command
+class InstallProjectsCommand extends Command
 {
     /**
      *
@@ -22,8 +21,8 @@ class WatchCommand extends Command
     {
         parent::configure();
 
-        $this->setName('project:watch');
-        $this->setDescription('Watch module updates for the configured projects');
+        $this->setName('project:install');
+        $this->setDescription('Check all configured projects and install them if they are not ready');
     }
 
     /**
@@ -34,14 +33,7 @@ class WatchCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        //Profiler::start('WATCH-COMMAND');
-
-        // (new ComposerModuleProvider())->get('./tmp/src/composer.json', './tmp/vendor','./tmp/vendor/home');
-
-        (new LocalModuleProvider())->get('./tmp/src');
-        // Profiler::end('WATCH-COMMAND');
-
-        // var_dump(Profiler::getAll());
+        (new ProjectFetcher())->fetch('git@github.com:X/Y.git', 'tmp/');
 
         return 0;
     }
