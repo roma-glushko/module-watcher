@@ -45,3 +45,11 @@ Module Watcher is capable to track the following types of third-party module ins
 - ✅ Third-party modules installed via Composer from Vendor Packagists
 - ⚠️ Third-party modules installed via Composer from SI Packagists
 - 🚨 Third-party modules committed to the Codebase
+
+## Notification Channels
+
+We are going to support the following notification channels:
+
+- Email via PHP mail()
+- Email via SwiftMail
+- Slack
