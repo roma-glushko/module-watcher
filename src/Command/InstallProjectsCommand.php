@@ -37,7 +37,7 @@ class InstallProjectsCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        //(new ProjectFetcher())->fetch('git@github.com:Atwix/Cabinets-m2.git', 'tmp/cab');
+        //(new ProjectFetcher())->fetch('git@github.com:X/Y.git', 'tmp/');
         //var_dump((new ConfigManager('module-watcher.yaml'))->getProjects());
 
         $configManager = new ConfigManager('module-watcher.yaml');
@@ -47,7 +47,7 @@ class InstallProjectsCommand extends Command
         );
 
         $reportTemplate = (new TemplateRenderer())->render(
-            'module-watcher-report.html.twig',
+            'module-watcher-report.twig',
             ['project' => $configManager->getProject('cabinetsdotcom')]
         );
 

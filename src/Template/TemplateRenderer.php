@@ -27,7 +27,6 @@ class TemplateRenderer
         $loader = new FilesystemLoader('templates');
 
         $loader->addPath('templates/styles', 'styles');
-        $loader->addPath('templates/images', 'images');
 
         $this->twigRenderer = new Environment(
             $loader,
