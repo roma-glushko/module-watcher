@@ -1,0 +1,30 @@
+temp_dir: ./tmp
+git-bin: ~
+proxy-packagists:
+    - one.proxy.com
+    - two.proxy.dev
+notification-channels:
+    unicorns-email-channel:
+        type: native-email
+        recipients:
+            - roman@company.com
+            - kate@company.com
+    unicorns-cab-slack-channel:
+        type: slack
+        token: XXX
+        channel: project1com
+    wizards-email-channel:
+        type: native-email
+        recipients:
+            - jim@company.com
+            - josh@company.com
+projects:
+    project1dotcom:
+        name: 'Project1.com'
+        git: git@github.com:X/Y.git
+        branches:
+            - master
+        notifications:
+            - tu-unicors-email-channel
+            - tu-unicors-cab-slack-channel
+

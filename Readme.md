@@ -1,46 +1,55 @@
-# Module Version Watcher 🔎
+# Module Watcher 🔎
 
-This is a system of reporting outdated composer dependencies that are used in a project.
-Originally, it was designed to be used on Magento 2 based projects 
-where custom modules are frequently installed via Composer.
-However, the idea is platform-agnostic.
+Module Watcher makes sure that you won't miss any update from your third-party modules 
+installed on the Magento2-based projects.
+
+The project is on MVP stage and has a lot of var_dumps() 😄
 
 ## Requirements
 
-- PHP 7.1
-- CRON/CI system
-- Sendmail
+- PHP 7.2
+- Cron/CI system
 - Git
-
-## Configurations
-
-File [robo.yml.dist](https://github.com/roma-glushko/project-update-watcher/blob/master/robo.yml.dist) should be copied to `robo.yml` file where all configuration changes should happen. Things can be configured:
-- project repository configurations
-- watcher directory configurations
-- report email configurations
-- report dependency blacklist configurations 
+- php mail()/Swift Mail/Slack
 
 ## Workflow
 
-The system is based on [Robo](https://robo.li) task framework. 
-[RoboFile.php](https://github.com/roma-glushko/project-update-watcher/blob/master/RoboFile.php) is an extensible point that adds two commands (described in Commands section). 
-After installing the system (clonning the repository and running `composer install`), it's needed to adjust configurations and install the project via `watcher:install` command. 
+### 1. Add a new project to the config file
 
-Finally, the second command `watcher:check-outdated-dependency` should be run by scheduler or CI system.
+Module Watcher has a common config files (possible to have a couple of them) 
+that helps to declare and share watcher configurations. Example of the config file can be found
+under `module-watcher.yaml.sample`.
 
-## Commands
+### 2. Install your project
 
-### watcher:install
+Module Watcher uses Git to access your project branch you want to track dependencies on.
+Before watching you need to run `project:install-projects` command to make sure all projects and their configs are
+installed and ready to be watched.
 
-This one helps to install everything that is needed to watch for project dependency updates. 
-Configurations from `robo.yml` and `robo.yml.dist` in the root of project is used while installing. 
+It's good to run this command after adding a new project, changing actual branch or changing list of branches.
 
-### watcher:check-outdated-dependency
+### 3. Watch Your Modules
 
-This one is used for checking whenever project has any dependency that is outdated. 
-Collected project update report is being sent by email.
-Dependencies can be blacklisted to keep project update report clean and useful.
+After your config file is installed, you are ready to run `project:watch` command and 
+get notifications about module updates.
 
-There are two types of reporting:
-- email: `./vendor/bin/robo watcher:check-outdated-dependency email`
-- CLI: `./vendor/bin/robo watcher:check-outdated-dependency`
+It's convenient to run the command from Cron or CLI to constantly get notifications and don't forget about this action.
+
+The command makes project branches up to date and then performs checks for
+Magento2 modules installed in all possible ways.
+
+## Magento2 Modules
+
+Module Watcher is capable to track the following types of third-party module installations:
+
+- ✅ Third-party modules installed via Composer from Vendor Packagists
+- ⚠️ Third-party modules installed via Composer from SI Packagists
+- 🚨 Third-party modules committed to the Codebase
+
+## Notification Channels
+
+We are going to support the following notification channels:
+
+- Email via PHP mail()
+- Email via SwiftMail
+- Slack

@@ -1,6 +1,6 @@
 .idea
 vendor
+node_modules
 project
-resources
-log
-robo.yml
+tmp
+module-watcher.yaml
